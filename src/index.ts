@@ -21,7 +21,9 @@ subtask(
 // handle the newly added compile:yul
 subtask(TASK_COMPILE_YUL, async (_flags, { config, artifacts }) => {
   const { compileYul } = await import("./compilation");
-  await compileYul(config.yul, config.paths, artifacts);
+
+  // gross cast
+  await compileYul(config.yul, config.paths, artifacts, config?.yulArtifacts || {} as any);
 });
 
 // handle the newly added compile:yulp tasks

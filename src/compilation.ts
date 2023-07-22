@@ -5,13 +5,14 @@ import path from "path";
 import solc from "solc";
 import yulp from "yulp";
 import * as fs from "fs";
-import { YulConfig } from "./types";
+import { YulConfig, YulArtifacts } from "./types";
 import util from "util";
 
 export async function compileYul(
   _yulConfig: YulConfig,
   paths: ProjectPathsConfig,
-  artifacts: Artifacts
+  artifacts: Artifacts,
+  yulArtifacts: YulArtifacts 
 ) {
   const files = await getYulSources(paths);
 
@@ -25,6 +26,13 @@ export async function compileYul(
 
     const sourceName = await localPathToSourceName(paths.root, file);
     const artifact = getArtifactFromYulOutput(sourceName, yulOutput);
+
+    const { contractName } = artifact;
+    // IFF the user defined a yulArtifact
+    if (Boolean(yulArtifacts) && contractName in yulArtifacts) {
+      artifact.abi = yulArtifacts[contractName].abi;
+      console.log(`Using ABI from yulArtifacts for ${contractName}`);
+    }
 
     await artifacts.saveArtifactAndDebugFile(artifact);
     allArtifacts.push({ ...artifact, artifacts: [artifact.contractName] });
@@ -130,11 +138,18 @@ async function _compileYul(filepath: string, filename: string) {
     output.contracts["Target.yul"][contractObjects[0]]["evm"]["bytecode"][
       "object"
     ];
+  const deployedBytecode =
+    "0x" +
+    output.contracts["Target.yul"][contractObjects[0]]["evm"]["deployedBytecode"][
+      "object"
+    ];
+
   const contractCompiled = {
     _format: "hh-sol-artifact-1",
     sourceName: filename,
     abi: [], // needs to be an empty array to not cause issues with typechain
     bytecode: bytecode,
+    bytecode_runtime: deployedBytecode,
   };
 
   return contractCompiled;
