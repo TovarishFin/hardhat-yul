@@ -9,7 +9,7 @@
   "homepage": "https://github.com/TovarishFin/hardhat-yul",
   "author": "TovarishFin",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "keywords": [
     "ethereum",
     "smart-contracts",
