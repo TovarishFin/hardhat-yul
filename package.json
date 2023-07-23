@@ -22,7 +22,8 @@
     "lint:fix": "yarn prettier --write && yarn eslint --fix",
     "eslint": "eslint 'src/**/*.ts'",
     "prettier": "prettier \"**/*.{js,md,json}\"",
-    "test": "mocha --recursive \"test/**/*.ts\" --exit",
+    "tests": "mocha --recursive \"test/**/*.ts\" --exit",
+    "test:yul": "sh ./scripts/test.sh",
     "build": "tsc --build .",
     "clean": "rimraf dist",
     "prepublish": "npm run build"

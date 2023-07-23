@@ -46,11 +46,32 @@ This plugin does not extend the Hardhat Runtime Environment.
 
 ## Configuration
 
-At the time, there are no configuration options. This might change in the future.
+### ABI
+
+Add the following if you want to deploy and/or test your Yul sources. In `hardhat.config.{ts,js}`:
+
+```javascript
+const config: HardhatUserConfig = {
+  solidity: "0.8.20",
+
+  yulArtifacts: { 
+    <contract_name>: {   // Must be the name of the contract defined by Yul source
+      abi: [
+        {
+            // ...
+        },
+        {
+            // ...
+        },
+      ],
+    }
+  }
+};
+```
 
 ## Usage
 
-There are no additional steps you need to take for this plugin to work.
+There are no additional steps you need to take for this plugin to work. See [example project](./test/hh-yul-project/hardhat.config.ts) for testing demo.
 
 ### Additional notes
 
