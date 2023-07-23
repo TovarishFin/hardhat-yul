@@ -4,6 +4,8 @@ import { extendConfig, subtask } from "hardhat/internal/core/config/config-env";
 import { TASK_COMPILE_YUL, TASK_COMPILE_YULP } from "./task-names";
 import "./type-extensions";
 
+import { YulConfig, YulArtifacts } from "./types";
+
 extendConfig((config) => {
   const defaultConfig = { version: "latest" };
   config.yul = { ...defaultConfig, ...config.yul };
@@ -22,12 +24,17 @@ subtask(
 subtask(TASK_COMPILE_YUL, async (_flags, { config, artifacts }) => {
   const { compileYul } = await import("./compilation");
 
-  // gross cast
-  await compileYul(config.yul, config.paths, artifacts, config?.yulArtifacts || {} as any);
+  // oh boy!
+  const yulCfg = config as unknown as YulConfig & { yulArtifacts: YulArtifacts };
+  await compileYul(yulCfg.yul, config.paths, artifacts, yulCfg.yulArtifacts);
 });
 
 // handle the newly added compile:yulp tasks
 subtask(TASK_COMPILE_YULP, async (_flags, { config, artifacts }) => {
   const { compileYulp } = await import("./compilation");
-  await compileYulp(config.yul, config.paths, artifacts);
+
+  // oh boy!
+  const yulCfg = config as unknown as YulConfig & { yulArtifacts: YulArtifacts };
+  // TODO: pass yulArtifacts to yulp compiler
+  await compileYulp(yulCfg.yul, config.paths, artifacts);
 });

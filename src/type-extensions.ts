@@ -1,14 +1,16 @@
 import "hardhat/types/config";
+import "hardhat/config";
 
 import { YulConfig, YulArtifacts } from "./types";
 
 declare module "hardhat/types/config" {
   interface HardhatUserConfig {
-    yul?: Partial<YulConfig>;
+    yul?: YulConfig;
+    yulArtifacts?: YulArtifacts;
   }
 
   interface HardhatConfig {
-    yul: YulConfig;
+    yul?: YulConfig;
     yulArtifacts?: YulArtifacts;
   }
 }
