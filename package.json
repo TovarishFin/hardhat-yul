@@ -9,7 +9,7 @@
   "homepage": "https://github.com/TovarishFin/hardhat-yul",
   "author": "TovarishFin",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "keywords": [
     "ethereum",
     "smart-contracts",
@@ -22,9 +22,11 @@
     "lint:fix": "yarn prettier --write && yarn eslint --fix",
     "eslint": "eslint 'src/**/*.ts'",
     "prettier": "prettier \"**/*.{js,md,json}\"",
-    "test": "mocha --recursive \"test/**/*.ts\" --exit",
+    "tests": "mocha --recursive \"test/**/*.ts\" --exit",
+    "test:yul": "sh ./scripts/test.sh",
     "build": "tsc --build .",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "prepublish": "npm run build"
   },
   "files": [
     "dist/*",
@@ -33,35 +35,47 @@
     "README.md"
   ],
   "dependencies": {
-    "@nomiclabs/hardhat-docker": "^2.0.0",
-    "fs-extra": "^10.1.0",
-    "glob": "^8.0.3",
-    "solc": "^0.8.17",
+    "@nomiclabs/hardhat-docker": "^2.0.2",
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.3",
+    "solc": "^0.8.21",
     "solpp": "^0.11.5",
     "yulp": "^0.2.3"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.0",
-    "@types/fs-extra": "^9.0.13",
-    "@types/glob": "^8.0.0",
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^18.8.2",
-    "@typescript-eslint/eslint-plugin": "^5.39.0",
-    "@typescript-eslint/parser": "^5.39.0",
-    "chai": "^4.2.0",
-    "eslint": "^8.24.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-prettier": "4.2.1",
-    "hardhat": "^2.0.0",
-    "mocha": "^10.0.0",
-    "prettier": "2.7.1",
-    "rimraf": "^3.0.2",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@nomicfoundation/hardhat-verify": "^1.0.0",
+    "@typechain/ethers-v6": "^0.4.0",
+    "@typechain/hardhat": "^8.0.0",
+    "@types/chai": "^4.3.5",
+    "@types/fs-extra": "^11.0.1",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.4.4",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
+    "chai": "^4.3.7",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-prettier": "5.0.0",
+    "ethers": "^6.4.0",
+    "hardhat": "^2.17.0",
+    "hardhat-gas-reporter": "^1.0.8",
+    "mocha": "^10.2.0",
+    "prettier": "3.0.0",
+    "rimraf": "^5.0.1",
+    "solidity-coverage": "^0.8.1",
     "ts-node": "^10.9.1",
-    "typescript": "~4.8.4"
+    "typechain": "^8.2.0",
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
-    "hardhat": "^2.0.0"
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.17.0"
   },
   "bugs": {
     "url": "https://github.com/tovarishfin/hardhat-yul/issues"
